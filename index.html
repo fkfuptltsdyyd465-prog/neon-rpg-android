@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NEXORA — Private Roleplay</title>
+<style>
+:root{--bg:#070812;--panel:#0d1020;--line:#27234a;--cyan:#00e5ff;--pink:#ff2bd6;--purple:#9b5cff;--text:#edf1ff;--muted:#8991b5}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% 10%,#17103b 0,#070812 42%,#05060b 100%);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;min-height:100vh}
+button,input,textarea,select{font:inherit}button{cursor:pointer}.app{max-width:1100px;margin:auto;min-height:100vh;padding:18px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border:1px solid var(--line);background:#0a0c18dd;border-radius:18px;box-shadow:0 0 35px #7b35ff12}
+.logo{font-weight:900;letter-spacing:2px;font-size:24px;background:linear-gradient(90deg,var(--cyan),var(--purple),var(--pink));-webkit-background-clip:text;color:transparent}.sub{font-size:11px;color:var(--muted);letter-spacing:2px}
+.actions{display:flex;gap:8px}.btn{border:1px solid #39345f;background:#11152a;color:var(--text);padding:9px 12px;border-radius:10px}.btn:hover{border-color:var(--cyan);box-shadow:0 0 15px #00e5ff22}.primary{background:linear-gradient(135deg,#1b1740,#26113b);border-color:#6849aa}
+.layout{display:grid;grid-template-columns:310px 1fr;gap:14px;margin-top:14px}.card{border:1px solid var(--line);background:#0b0e1bde;border-radius:18px;padding:16px}
+h2,h3{margin:0 0 12px}.muted{color:var(--muted);font-size:13px}.profile{text-align:center}.avatar{width:108px;height:108px;border-radius:50%;margin:8px auto 12px;display:grid;place-items:center;font-size:42px;font-weight:800;background:linear-gradient(135deg,#101a38,#30124a);border:2px solid #4f3d8e;box-shadow:0 0 30px #9b5cff35}.tag{display:inline-block;padding:5px 9px;border:1px solid #38355b;border-radius:999px;color:#b9c0e9;font-size:12px;margin:3px}
+.field{margin:10px 0}.field label{display:block;font-size:12px;color:#aab1d2;margin-bottom:5px}.field input,.field textarea,.field select{width:100%;background:#070a14;border:1px solid #29284a;color:var(--text);border-radius:10px;padding:9px;outline:none}.field textarea{min-height:80px;resize:vertical}.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--cyan);box-shadow:0 0 12px #00e5ff14}
+.chat{display:flex;flex-direction:column;min-height:720px}.messages{flex:1;overflow:auto;padding:4px 3px 15px;display:flex;flex-direction:column;gap:10px}.msg{max-width:82%;padding:11px 13px;border-radius:15px;line-height:1.8;white-space:pre-wrap}.user{align-self:flex-start;background:#161b35;border:1px solid #30365d;border-bottom-left-radius:4px}.char{align-self:flex-end;background:linear-gradient(135deg,#181332,#26152d);border:1px solid #543b69;border-bottom-right-radius:4px;box-shadow:0 0 20px #ff2bd608}.meta{font-size:10px;color:#7f88aa;margin-bottom:3px}.composer{display:flex;gap:8px;border-top:1px solid var(--line);padding-top:13px}.composer textarea{flex:1;min-height:55px;max-height:160px;background:#070a14;border:1px solid #34315b;color:var(--text);border-radius:12px;padding:11px;resize:vertical;outline:none}.send{min-width:85px;border:1px solid #5c43a3;border-radius:12px;color:white;background:linear-gradient(135deg,#24174f,#42153f);font-weight:800}
+.controls{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.small{font-size:12px;padding:7px 9px}.empty{margin:auto;text-align:center;color:var(--muted);padding:35px}.notice{font-size:11px;color:#8991b5;margin-top:10px;line-height:1.7}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.chat{min-height:65vh}.profile{display:grid;grid-template-columns:90px 1fr;align-items:center;text-align:right;gap:12px}.avatar{width:82px;height:82px;margin:auto}.profile .tags{grid-column:1/-1;text-align:center}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+<div><div class="logo">NEXORA</div><div class="sub">PRIVATE ROLEPLAY ENGINE</div></div>
+<div class="actions"><button class="btn" id="lang">EN</button><button class="btn" id="reset">Reset</button></div>
+</header>
+<div class="layout">
+<aside class="card">
+<div class="profile">
+<div class="avatar" id="avatar">N</div>
+<div><h2 id="charName">Nova</h2><div class="muted" id="charRole">Mystery Character</div></div>
+</div>
+<div class="tags" id="tags"><span class="tag">calm</span><span class="tag">observant</span></div>
+<hr style="border-color:#24233e;border-width:1px 0 0;margin:16px 0">
+<h3 id="settingsTitle">Character</h3>
+<div class="field"><label>Name</label><input id="name" value="Nova"></div>
+<div class="field"><label>Role / Job</label><input id="role" value="Mystery Character"></div>
+<div class="field"><label>Personality</label><textarea id="personality">calm, observant, confident, mysterious</textarea></div>
+<div class="field"><label>Tone</label><select id="tone"><option>natural</option><option>dramatic</option><option>friendly</option><option>cold</option><option>playful</option></select></div>
+<div class="field"><label>Goal</label><input id="goal" value="understand what is happening"></div>
+<div class="controls"><button class="btn primary small" id="save">Save character</button><button class="btn small" id="regen">Regenerate last</button></div>
+<div class="notice">Works locally. No API key, server, or external AI model is required. Character state and chat are stored in this browser.</div>
+</aside>
+
+<main class="card chat">
+<div id="messages" class="messages"></div>
+<div class="composer"><textarea id="input" placeholder="Write an action or dialogue…"></textarea><button class="send" id="send">Send</button></div>
+</main>
+</div>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+let state=JSON.parse(localStorage.getItem("nexora_state")||"null")||{
+character:{name:"Nova",role:"Mystery Character",personality:"calm, observant, confident, mysterious",tone:"natural",goal:"understand what is happening"},
+messages:[]
+};
+let lang=localStorage.getItem("nexora_lang")||"fa";
+const fa={placeholder:"یک حرکت یا دیالوگ بنویس…",send:"ارسال",char:"شخصیت",save:"ذخیره شخصیت",regen:"تولید دوباره",reset:"ریست",settings:"شخصیت"};
+const en={placeholder:"Write an action or dialogue…",send:"Send",char:"Character",save:"Save character",regen:"Regenerate",reset:"Reset",settings:"Character"};
+
+function save(){localStorage.setItem("nexora_state",JSON.stringify(state));}
+function renderProfile(){
+ let c=state.character; $("#charName").textContent=c.name||"Nova"; $("#charRole").textContent=c.role||"Character";
+ $("#name").value=c.name||"";$("#role").value=c.role||"";$("#personality").value=c.personality||"";$("#tone").value=c.tone||"natural";$("#goal").value=c.goal||"";
+ $("#avatar").textContent=(c.name||"N")[0].toUpperCase();
+ $("#tags").innerHTML=(c.personality||"").split(",").slice(0,5).map(x=>`<span class="tag">${esc(x.trim())}</span>`).join("");
+}
+function render(){
+ renderProfile(); const box=$("#messages");box.innerHTML="";
+ if(!state.messages.length){box.innerHTML=`<div class="empty">NEXORA is ready.<br>Start the scene with an action or dialogue.</div>`;return}
+ state.messages.forEach((m,i)=>{let d=document.createElement("div");d.className="msg "+(m.who==="user"?"user":"char");d.innerHTML=`<div class="meta">${m.who==="user"?"YOU":esc(state.character.name)}</div>${esc(m.text)}`;box.appendChild(d)});
+ box.scrollTop=box.scrollHeight;
+}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function pick(a){return a[Math.floor(Math.random()*a.length)]}
+function generate(input){
+ const c=state.character, p=(c.personality||"").toLowerCase(), t=c.tone||"natural", q=input.toLowerCase();
+ let mood=q.includes("angry")||q.includes("عصب")?"tense":q.includes("hello")||q.includes("سلام")?"warm":q.includes("?")||q.includes("چرا")?"curious":"neutral";
+ let lead=t==="dramatic"?"با مکثی کوتاه، ":t==="cold"?"سرد و بدون عجله، ":t==="playful"?"با لبخندی شیطنت‌آمیز، ":"";
+ let answers;
+ if(mood==="warm") answers=[`${lead}${c.name} نگاهش را به تو می‌دوزد و آرام می‌گوید: «بالاخره رسیدی. منتظرت بودم.»`,`«سلام.» ${c.name} لبخند کوتاهی می‌زند. «خب، بگو ببینم امروز چه اتفاقی افتاده؟»`];
+ else if(mood==="tense") answers=[`${lead}${c.name} کمی ساکت می‌شود. «لازم نیست همه‌چیز را همین حالا حل کنیم. اول بگو دقیقاً چه اتفاقی افتاد.»`,`${c.name} با دقت نگاهت می‌کند. «اگر عصبانی هستی، حرفت را بزن. من گوش می‌دهم.»`];
+ else if(mood==="curious") answers=[`${lead}${c.name} کمی سرش را کج می‌کند. «سؤال خوبی است… اما قبل از جواب، می‌خواهم بدانم خودت چه فکری می‌کنی؟»`,`«چرا؟» ${c.name} آرام می‌پرسد. «چون چیزی در حرفت هست که هنوز نگفتی.»`];
+ else answers=[`${lead}${c.name} چند لحظه سکوت می‌کند و بعد می‌گوید: «متوجه شدم. ادامه بده؛ می‌خواهم ببینم این ماجرا به کجا می‌رسد.»`,`${c.name} با دقت به حرفت گوش می‌دهد. «جالب شد… این دقیقاً همان چیزی نبود که انتظارش را داشتم.»`,`${c.name} آرام جواب می‌دهد: «باشه. پس از همین‌جا ادامه می‌دهیم.»`];
+ if(p.includes("myster")) answers.push(`${c.name} چیزی نمی‌گوید؛ فقط نگاه کوتاهی به اطراف می‌اندازد، انگار نکته‌ای را می‌داند که هنوز حاضر نیست فاش کند.`);
+ return pick(answers);
+}
+function send(){
+ const v=$("#input").value.trim();if(!v)return;
+ state.messages.push({who:"user",text:v});state.messages.push({who:"char",text:generate(v)});$("#input").value="";save();render();
+}
+$("#send").onclick=send;$("#input").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send()}});
+$("#save").onclick=()=>{state.character={name:$("#name").value.trim()||"Nova",role:$("#role").value.trim()||"Character",personality:$("#personality").value.trim(),tone:$("#tone").value,goal:$("#goal").value.trim()};save();render();};
+$("#regen").onclick=()=>{for(let i=state.messages.length-1;i>=0;i--)if(state.messages[i].who==="char"){let prev=state.messages[i-1];if(prev){state.messages[i].text=generate(prev.text);save();render()}break}};
+$("#reset").onclick=()=>{if(confirm(lang==="fa"?"همه مکالمه پاک شود؟":"Delete the conversation?")){state.messages=[];save();render()}};
+$("#lang").onclick=()=>{lang=lang==="fa"?"en":"fa";localStorage.setItem("nexora_lang",lang);document.documentElement.lang=lang;document.documentElement.dir=lang==="fa"?"rtl":"ltr";let x=lang==="fa"?fa:en;$("#input").placeholder=x.placeholder;$("#send").textContent=x.send;$("#save").textContent=x.save;$("#regen").textContent=x.regen;$("#reset").textContent=x.reset;$("#settingsTitle").textContent=x.settings;$("#lang").textContent=lang==="fa"?"EN":"FA"};
+render();$("#lang").click();
+</script>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NEON RP — شبکه ملی</title>
+<style>
+:root{
+  --bg:#070711;--panel:#101020;--panel2:#15152a;--text:#f4f2ff;--muted:#9895b5;
+  --purple:#a855f7;--pink:#ec4899;--blue:#38bdf8;--line:#292744;
+}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 20% 0%,#21113d 0,transparent 35%),radial-gradient(circle at 90% 20%,#102e46 0,transparent 30%),var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Tahoma,sans-serif;min-height:100vh}
+button,input,textarea{font:inherit} button{cursor:pointer}
+.app{max-width:1200px;margin:auto;padding:18px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 4px 22px}
+.logo{font-weight:900;letter-spacing:2px;font-size:22px}.logo span{color:var(--pink);text-shadow:0 0 18px #ec4899}
+.badge{border:1px solid #3b2f59;background:#151126;padding:7px 11px;border-radius:999px;color:#d8b4fe;font-size:12px}
+nav{display:flex;gap:8px;overflow:auto;padding-bottom:12px}
+nav button,.chip{background:#111121;border:1px solid var(--line);color:#bdb9d7;border-radius:12px;padding:10px 14px}
+nav button.active{color:white;border-color:#9b5de5;box-shadow:0 0 18px #a855f733}
+.page{display:none}.page.active{display:block}
+.hero{padding:34px 10px 26px;text-align:center}
+.kicker{color:var(--blue);font-size:12px;letter-spacing:3px}.hero h1{font-size:clamp(34px,8vw,72px);margin:10px 0;background:linear-gradient(90deg,var(--blue),var(--purple),var(--pink));-webkit-background-clip:text;color:transparent;text-shadow:0 0 30px #a855f733}
+.hero p{max-width:650px;margin:auto;color:var(--muted);line-height:1.9}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{background:linear-gradient(145deg,#111121dd,#0d0d18dd);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 0 35px #0006}
+.card h3{margin:0 0 8px}.muted{color:var(--muted);font-size:13px;line-height:1.8}
+.stat{font-size:27px;font-weight:800;margin-top:8px}.pink{color:var(--pink)}.blue{color:var(--blue)}.purple{color:#c084fc}
+.section-title{display:flex;justify-content:space-between;align-items:center;margin:20px 0 12px}
+.form{display:grid;gap:12px;max-width:760px;margin:auto}.field{display:grid;gap:7px}
+label{font-size:13px;color:#bdb9d7}input,textarea{width:100%;background:#0b0b15;color:white;border:1px solid #302d49;border-radius:12px;padding:12px;outline:none}
+input:focus,textarea:focus{border-color:var(--purple);box-shadow:0 0 16px #a855f722}
+textarea{min-height:120px;resize:vertical}
+.gender{display:grid;grid-template-columns:1fr 1fr;gap:10px}.gender button{padding:14px;border:1px solid var(--line);background:#101020;color:#aaa6c4;border-radius:14px}
+.gender button.selected{border-color:var(--pink);color:white;box-shadow:0 0 22px #ec489933}
+.primary{border:0;border-radius:13px;padding:13px 18px;color:white;background:linear-gradient(90deg,var(--purple),var(--pink));box-shadow:0 0 25px #a855f744}
+.secondary{border:1px solid #38344f;border-radius:13px;padding:12px 16px;background:#111121;color:#ddd}
+.avatar{width:92px;height:92px;border-radius:24px;background:linear-gradient(135deg,#27163f,#102f45);display:grid;place-items:center;font-size:38px;border:1px solid #584276;box-shadow:0 0 30px #a855f744}
+.profile{display:flex;align-items:center;gap:15px}.status{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.chat{max-width:820px;margin:auto;display:grid;gap:10px}.msg{max-width:78%;padding:12px 14px;border-radius:16px;line-height:1.7;border:1px solid #292744}.me{margin-right:auto;background:#241337;border-color:#693c81}.bot{margin-left:auto;background:#101d2a;border-color:#28506a}
+.chatbar{display:flex;gap:8px;margin-top:12px}.chatbar input{flex:1}
+.wave{display:flex;align-items:center;gap:3px;height:22px}.wave i{width:3px;border-radius:4px;background:var(--blue);height:8px;animation:pulse 1s infinite alternate}.wave i:nth-child(2){height:15px}.wave i:nth-child(3){height:20px}.wave i:nth-child(4){height:12px}.wave i:nth-child(5){height:18px}
+@keyframes pulse{to{transform:scaleY(.5);opacity:.5}}
+.poster{min-height:260px;display:grid;place-items:center;text-align:center;background:linear-gradient(145deg,#160f25,#081d2c);border:1px solid #493b63;border-radius:20px;padding:30px;position:relative;overflow:hidden}
+.poster:after{content:"";position:absolute;inset:-50%;background:conic-gradient(from 0deg,transparent,#a855f722,transparent,#38bdf822,transparent);animation:spin 10s linear infinite}
+.poster>*{position:relative;z-index:1}.poster h2{font-size:38px;margin:8px;background:linear-gradient(90deg,var(--pink),var(--blue));-webkit-background-clip:text;color:transparent}
+@keyframes spin{to{transform:rotate(360deg)}}
+footer{text-align:center;color:#696681;font-size:11px;padding:28px 0 12px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.app{padding:12px}.hero{padding-top:24px}.card{border-radius:16px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="logo">NEON <span>RP</span></div>
+  <div class="badge">LOCAL • OFFLINE</div>
+</header>
+
+<nav>
+  <button class="active" data-page="home">خانه</button>
+  <button data-page="character">ساخت کاراکتر</button>
+  <button data-page="chat">رول‌پلی</button>
+  <button data-page="status">کارت وضعیت</button>
+</nav>
+
+<main>
+<section id="home" class="page active">
+  <div class="hero">
+    <div class="kicker">NATIONAL NETWORK // EXPERIMENTAL</div>
+    <h1>NEON RP</h1>
+    <p>نسخه‌ی خام و آزمایشی یک پلتفرم رول‌پلی نئونی؛ همه‌چیز فعلاً محلی و داخل همین مرورگر اجرا می‌شود.</p>
+  </div>
+  <div class="grid">
+    <div class="card"><div class="muted">وضعیت شبکه</div><div class="stat blue">ONLINE</div></div>
+    <div class="card"><div class="muted">سهمیه مدیر</div><div class="stat purple">∞ GB</div></div>
+    <div class="card"><div class="muted">سرعت</div><div class="stat pink">MAX</div></div>
+  </div>
+  <div class="section-title"><h3>پنل سریع</h3></div>
+  <div class="grid">
+    <div class="card"><h3>👤 کاراکتر</h3><div class="muted">کاراکتر خودت را بساز و اطلاعاتش را همین‌جا نگه دار.</div><button class="primary" onclick="showPage('character')">شروع ساخت</button></div>
+    <div class="card"><h3>💬 رول‌پلی</h3><div class="muted">یک چت نمایشی با پاسخ‌های محلی و ساده.</div><button class="secondary" onclick="showPage('chat')">باز کردن چت</button></div>
+    <div class="card"><h3>⚡ وضعیت</h3><div class="muted">یک کارت گرافیکی نئونی برای وضعیت شبکه بساز.</div><button class="secondary" onclick="showPage('status')">ساخت کارت</button></div>
+  </div>
+</section>
+
+<section id="character" class="page">
+  <div class="section-title"><h2>ساخت کاراکتر</h2><span class="chip">LOCAL SAVE</span></div>
+  <div class="card form">
+    <div class="field"><label>نام کاراکتر</label><input id="name" placeholder="مثلاً Alex"></div>
+    <div class="field"><label>جنسیت</label><div class="gender"><button data-g="مرد">♂ مرد</button><button data-g="زن">♀ زن</button></div></div>
+    <div class="field"><label>توضیحات</label><textarea id="desc" placeholder="ظاهر، پیشینه یا ویژگی‌های کاراکتر..."></textarea></div>
+    <div class="field"><label>شخصیت</label><input id="personality" placeholder="مثلاً آرام، باهوش، شوخ"></div>
+    <button class="primary" onclick="saveCharacter()">ذخیره کاراکتر</button>
+    <div id="charResult" class="muted"></div>
+  </div>
+</section>
+
+<section id="chat" class="page">
+  <div class="section-title"><h2>رول‌پلی</h2><span class="chip">SIMULATION</span></div>
+  <div class="card chat">
+    <div id="messages">
+      <div class="msg bot">سیستم: اتصال محلی برقرار شد. برای شروع یک پیام بفرست.</div>
+    </div>
+    <div class="chatbar"><input id="chatInput" placeholder="پیامت را بنویس..." onkeydown="if(event.key==='Enter')sendMsg()"><button class="primary" onclick="sendMsg()">ارسال</button></div>
+  </div>
+</section>
+
+<section id="status" class="page">
+  <div class="section-title"><h2>کارت وضعیت</h2><span class="chip">NEON CARD</span></div>
+  <div class="grid">
+    <div class="card form">
+      <div class="field"><label>عنوان</label><input id="statusTitle" value="NATIONAL NETWORK"></div>
+      <div class="field"><label>متن وضعیت</label><input id="statusText" value="SYSTEM ONLINE // NO SIGNAL LOSS"></div>
+      <button class="primary" onclick="updatePoster()">به‌روزرسانی کارت</button>
+    </div>
+    <div class="poster" id="poster"><div><div class="kicker">NETWORK STATUS</div><h2>NATIONAL NETWORK</h2><p> SYSTEM ONLINE // NO SIGNAL LOSS </p></div></div>
+  </div>
+</section>
+</main>
+<footer>NEON RP • Experimental Local Build • No server required</footer>
+</div>
+
+<script>
+const pages=document.querySelectorAll('.page'), nav=document.querySelectorAll('nav button');
+function showPage(id){pages.forEach(p=>p.classList.toggle('active',p.id===id));nav.forEach(b=>b.classList.toggle('active',b.dataset.page===id));window.scrollTo({top:0,behavior:'smooth'})}
+nav.forEach(b=>b.onclick=()=>showPage(b.dataset.page));
+
+let gender='';
+document.querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{gender=b.dataset.g;document.querySelectorAll('[data-g]').forEach(x=>x.classList.remove('selected'));b.classList.add('selected')});
+
+function saveCharacter(){
+ const c={name:document.getElementById('name').value||'Unnamed',gender,desc:document.getElementById('desc').value,personality:document.getElementById('personality').value};
+ localStorage.setItem('neonCharacter',JSON.stringify(c));
+ document.getElementById('charResult').innerHTML=`✓ کاراکتر <b>${escapeHtml(c.name)}</b> ذخیره شد.`;
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function sendMsg(){
+ const i=document.getElementById('chatInput'),v=i.value.trim();if(!v)return;
+ const box=document.getElementById('messages');
+ box.innerHTML+=`<div class="msg me">${escapeHtml(v)}</div>`;
+ i.value='';
+ setTimeout(()=>{box.innerHTML+=`<div class="msg bot">سیستم: پیام دریافت شد. این نسخه فعلاً آفلاین و نمایشی است. <div class="wave"><i></i><i></i><i></i><i></i><i></i></div></div>`;box.parentElement.scrollTop=box.parentElement.scrollHeight},350);
+}
+function updatePoster(){
+ const t=escapeHtml(document.getElementById('statusTitle').value||'NEON RP');
+ const s=escapeHtml(document.getElementById('statusText').value||'SYSTEM ONLINE');
+ document.getElementById('poster').innerHTML=`<div><div class="kicker">NETWORK STATUS</div><h2>${t}</h2><p>${s}</p></div>`;
+}
+const saved=localStorage.getItem('neonCharacter');
+if(saved){try{const c=JSON.parse(saved);document.getElementById('name').value=c.name||'';document.getElementById('desc').value=c.desc||'';document.getElementById('personality').value=c.personality||'';gender=c.gender||'';document.querySelectorAll('[data-g]').forEach(b=>b.classList.toggle('selected',b.dataset.g===gender));}catch(e){}}
+</script>
+</body>
+</html>
