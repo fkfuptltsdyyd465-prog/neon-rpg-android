@@ -1,0 +1,163 @@
+
+name: Build NEON RPG Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout game files
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v4
+
+      - name: Install Android SDK packages
+        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          gradle-version: '8.9'
+
+      - name: Prepare Android project
+        run: |
+          mkdir -p app/src/main/assets
+          mkdir -p app/src/main/java/com/neonrpg/app
+
+          cp index.html app/src/main/assets/
+
+          cp *.jpg app/src/main/assets/ 2>/dev/null || true
+          cp *.png app/src/main/assets/ 2>/dev/null || true
+          cp *.svg app/src/main/assets/ 2>/dev/null || true
+
+          cat > settings.gradle <<'EOF'
+          pluginManagement {
+              repositories {
+                  google()
+                  mavenCentral()
+                  gradlePluginPortal()
+              }
+          }
+          dependencyResolutionManagement {
+              repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+              repositories {
+                  google()
+                  mavenCentral()
+              }
+          }
+          rootProject.name = "NEON-RPG"
+          include ':app'
+          EOF
+
+          cat > build.gradle <<'EOF'
+          plugins {
+              id 'com.android.application' version '8.7.3' apply false
+          }
+          EOF
+
+          cat > app/build.gradle <<'EOF'
+          plugins {
+              id 'com.android.application'
+          }
+
+          android {
+              namespace 'com.neonrpg.app'
+              compileSdk 35
+
+              defaultConfig {
+                  applicationId 'com.neonrpg.app'
+                  minSdk 23
+                  targetSdk 35
+                  versionCode 1
+                  versionName '1.0'
+              }
+          }
+          EOF
+
+          cat > app/src/main/AndroidManifest.xml <<'EOF'
+          <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+              <uses-permission android:name="android.permission.INTERNET"/>
+              <application
+                  android:label="NEON RPG"
+                  android:theme="@android:style/Theme.Material.Light.NoActionBar"
+                  android:usesCleartextTraffic="false">
+                  <activity
+                      android:name=".MainActivity"
+                      android:exported="true">
+                      <intent-filter>
+                          <action android:name="android.intent.action.MAIN"/>
+                          <category android:name="android.intent.category.LAUNCHER"/>
+                      </intent-filter>
+                  </activity>
+              </application>
+          </manifest>
+          EOF
+
+          cat > app/src/main/java/com/neonrpg/app/MainActivity.java <<'EOF'
+          package com.neonrpg.app;
+
+          import android.app.Activity;
+          import android.os.Bundle;
+          import android.webkit.WebView;
+          import android.webkit.WebViewClient;
+          import android.webkit.WebSettings;
+          import android.view.ViewGroup;
+
+          public class MainActivity extends Activity {
+              WebView webView;
+
+              @Override
+              protected void onCreate(Bundle savedInstanceState) {
+                  super.onCreate(savedInstanceState);
+
+                  webView = new WebView(this);
+                  webView.setLayoutParams(new ViewGroup.LayoutParams(
+                      ViewGroup.LayoutParams.MATCH_PARENT,
+                      ViewGroup.LayoutParams.MATCH_PARENT
+                  ));
+
+                  WebSettings settings = webView.getSettings();
+                  settings.setJavaScriptEnabled(true);
+                  settings.setDomStorageEnabled(true);
+                  settings.setAllowFileAccess(true);
+
+                  webView.setWebViewClient(new WebViewClient());
+                  setContentView(webView);
+                  webView.loadUrl("file:///android_asset/index.html");
+              }
+
+              @Override
+              public void onBackPressed() {
+                  if (webView.canGoBack()) {
+                      webView.goBack();
+                  } else {
+                      super.onBackPressed();
+                  }
+              }
+          }
+          EOF
+
+      - name: Build APK
+        run: gradle --no-daemon assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: NEON-RPG-APK
+          path: app/build/outputs/apk/debug/app-debug.apk
