@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NEON TALES — RPG Chat</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
+:root{--bg:#080914;--panel:#111326;--panel2:#171a31;--line:#282b49;--text:#f4f2ff;--muted:#9a9dbb;--cyan:#53e7ff;--pink:#ff55c8;--purple:#a78bfa;--green:#69f0bd;--shadow:0 0 26px #745bff20}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 0%,#20204a 0,transparent 35%),radial-gradient(ellipse at 90% 90%,#35133e 0,transparent 30%),var(--bg);color:var(--text);font-family:Vazirmatn,Inter,sans-serif;min-height:100vh}
+button,input,textarea,select{font:inherit}button{cursor:pointer}
+.app{max-width:1400px;margin:auto;padding:22px;display:grid;grid-template-columns:250px minmax(0,1fr);gap:20px;min-height:100vh}
+.sidebar,.panel,.card{background:#101225eF;border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}
+.sidebar{padding:22px 16px;display:flex;flex-direction:column;gap:24px;height:calc(100vh - 44px);position:sticky;top:22px}
+.brand{display:flex;align-items:center;gap:12px;padding:4px 8px}.brandmark{width:43px;height:43px;border-radius:14px;background:linear-gradient(135deg,var(--cyan),var(--purple),var(--pink));display:grid;place-items:center;color:#090a18;font-size:23px;box-shadow:0 0 22px #9b76ff88}.brand strong{font-size:17px;letter-spacing:1px}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:2px}
+.nav{display:grid;gap:9px}.nav button,.side-action{border:1px solid transparent;background:transparent;color:var(--muted);padding:13px 14px;border-radius:13px;text-align:right;display:flex;align-items:center;gap:12px;transition:.2s}.nav button .ico{font-size:20px;width:26px;text-align:center}.nav button.active,.nav button:hover{color:var(--text);border-color:#554b9b;background:linear-gradient(90deg,#232449,#171a30);box-shadow:inset -3px 0 var(--cyan),0 0 18px #695cff20}
+.sidebar-bottom{margin-top:auto;display:grid;gap:10px}.side-action{border-color:var(--line);justify-content:center;color:var(--text)}.side-action:hover{border-color:var(--cyan)}
+main{min-width:0}.topbar{display:flex;justify-content:space-between;align-items:center;margin:4px 2px 20px;gap:12px}.eyebrow{color:var(--cyan);font-size:11px;letter-spacing:2px}.topbar h1{font-size:25px;margin:3px 0}.top-actions{display:flex;gap:9px;align-items:center}.icon-btn,.btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:12px;padding:10px 14px}.icon-btn{width:42px;height:42px;padding:0;font-size:18px}.btn.primary{background:linear-gradient(110deg,#5650c9,#a34ca8);border:0;box-shadow:0 0 20px #825bff55}.btn.ghost:hover,.icon-btn:hover{border-color:var(--cyan)}.btn.danger{color:#ff9bb9;border-color:#74314c}.page{display:none}.page.active{display:block}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.card{padding:19px}.card h3{margin:0 0 15px;font-size:15px}.field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:grid;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:12px;color:#c6c5e0}.label-icon{color:var(--cyan);margin-left:6px;text-shadow:0 0 9px var(--cyan)}input,textarea,select{width:100%;background:#090c1b;border:1px solid #303451;border-radius:11px;color:var(--text);padding:11px 12px;outline:none}input:focus,textarea:focus,select:focus{border-color:var(--cyan);box-shadow:0 0 0 3px #53e7ff12}textarea{resize:vertical;min-height:78px}input::placeholder,textarea::placeholder{color:#696d8b}
+.upload{border:1px dashed #55517e;border-radius:15px;padding:14px;display:flex;gap:14px;align-items:center;background:#0b0d1d}.avatar{width:72px;height:72px;border-radius:18px;object-fit:cover;background:linear-gradient(135deg,#26365a,#512b63);display:grid;place-items:center;font-size:30px;border:1px solid #5b5b9b;box-shadow:0 0 16px #8b67ff55;flex:none}.hint{font-size:11px;color:var(--muted);line-height:1.8}.form-actions{display:flex;gap:9px;margin-top:16px;flex-wrap:wrap}.section-title{display:flex;justify-content:space-between;align-items:end;margin:0 2px 15px}.section-title h2{margin:0;font-size:20px}.section-title p{margin:4px 0 0;color:var(--muted);font-size:12px}
+.searchbar{display:flex;gap:10px;margin-bottom:15px}.searchbar input{flex:1}.character-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}.char-card{background:linear-gradient(145deg,#171a33,#101225);border:1px solid var(--line);border-radius:17px;padding:15px;display:flex;gap:12px;align-items:center;min-width:0}.char-card .avatar{width:58px;height:58px;border-radius:15px}.char-meta{min-width:0;flex:1}.char-meta strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.char-meta small{color:var(--muted);font-size:11px}.char-actions{display:flex;gap:6px;margin-top:9px}.mini{font-size:11px;padding:6px 9px;border-radius:9px;border:1px solid var(--line);background:#20233e;color:var(--text)}
+.chat-layout{display:grid;grid-template-columns:280px minmax(0,1fr);gap:14px;min-height:600px}.chat-list{padding:12px;max-height:72vh;overflow:auto}.chat-item{display:flex;gap:10px;padding:10px;border-radius:12px;cursor:pointer;border:1px solid transparent;margin-bottom:5px}.chat-item.active,.chat-item:hover{background:#20223d;border-color:#484579}.chat-item .avatar{width:42px;height:42px;border-radius:12px;font-size:20px}.chat-item small{display:block;color:var(--muted);font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:170px}.conversation{display:flex;flex-direction:column;min-height:600px;overflow:hidden}.chat-head{padding:14px 17px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px}.chat-head .avatar{width:43px;height:43px}.chat-head small{color:var(--muted)}.messages{padding:18px;display:flex;flex-direction:column;gap:15px;overflow:auto;flex:1;max-height:58vh}.msg{max-width:82%;display:flex;gap:9px;align-items:flex-start}.msg.user{align-self:flex-start;flex-direction:row-reverse}.msg.bot{align-self:flex-end}.msg .avatar{width:34px;height:34px;border-radius:11px;font-size:16px}.bubble{background:#1a1d38;border:1px solid #37395e;border-radius:15px;padding:11px 13px;line-height:1.8;white-space:pre-wrap;overflow-wrap:anywhere}.msg.user .bubble{background:#252044;border-color:#574c8e}.msg-tools{display:flex;gap:6px;margin-top:6px}.msg-tools button{background:none;border:0;color:#9a9cbd;font-size:11px;padding:2px 5px}.msg-tools button:hover{color:var(--cyan)}.composer{border-top:1px solid var(--line);padding:13px;display:flex;gap:9px;align-items:end}.composer textarea{min-height:45px;max-height:130px;flex:1}.empty{padding:45px 20px;text-align:center;color:var(--muted);border:1px dashed #3a3d60;border-radius:17px}.empty .big{font-size:38px;margin-bottom:10px}.notice{font-size:11px;color:var(--muted);line-height:1.8;margin-top:9px}.pill{font-size:10px;color:var(--cyan);border:1px solid #356879;border-radius:30px;padding:4px 8px}.modal-back{position:fixed;inset:0;background:#03040bd9;display:none;place-items:center;padding:18px;z-index:10}.modal-back.show{display:grid}.modal{width:min(520px,100%);background:#13162b;border:1px solid #49477d;border-radius:19px;padding:20px;box-shadow:0 0 50px #755bff55}.modal-head{display:flex;justify-content:space-between;align-items:center}.modal h3{margin:0 0 14px}.modal .field{margin-top:12px}.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#202443;border:1px solid #58538d;padding:10px 17px;border-radius:12px;display:none;z-index:20}.toast.show{display:block}
+[dir=ltr] .nav button{text-align:left}[dir=ltr] .nav button.active{box-shadow:inset 3px 0 var(--cyan),0 0 18px #695cff20}[dir=ltr] .msg.bot{align-self:flex-start}[dir=ltr] .msg.user{align-self:flex-end}[dir=ltr] .searchbar input{text-align:left}
+@media(max-width:900px){.app{grid-template-columns:1fr;padding:12px}.sidebar{height:auto;position:static;padding:12px;gap:12px}.brand{padding:3px}.nav{grid-template-columns:repeat(3,1fr)}.nav button{justify-content:center;padding:10px 5px;font-size:12px}.nav button .ico{width:auto}.sidebar-bottom{display:none}.chat-layout{grid-template-columns:1fr}.chat-list{max-height:210px;display:flex;overflow:auto}.chat-item{min-width:205px}.conversation{min-height:520px}.messages{max-height:50vh}}
+@media(max-width:600px){.grid,.field-grid{grid-template-columns:1fr}.topbar h1{font-size:20px}.topbar{align-items:flex-start}.top-actions{gap:5px}.card{padding:14px}.msg{max-width:95%}.section-title{align-items:flex-start;gap:10px;flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+ <div class="brand"><div class="brandmark">✧</div><div><strong>NEON TALES</strong><small>ROLEPLAY STUDIO</small></div></div>
+ <nav class="nav">
+  <button class="active" data-page="create"><span class="ico">✦</span><span data-i18n="create">ساخت کاراکتر</span></button>
+  <button data-page="search"><span class="ico">⌕</span><span data-i18n="search">جست‌وجو</span></button>
+  <button data-page="chats"><span class="ico">▤</span><span data-i18n="chats">چت‌ها</span></button>
+ </nav>
+ <div class="sidebar-bottom">
+  <button class="side-action" id="apiOpen">⚙ <span data-i18n="apiSettings">تنظیمات API</span></button>
+  <div class="hint" data-i18n="localNote">اطلاعات در همین مرورگر ذخیره می‌شود.</div>
+ </div>
+</aside>
+<main>
+ <header class="topbar"><div><div class="eyebrow">YOUR STORY. YOUR UNIVERSE.</div><h1 id="pageTitle">ساخت کاراکتر</h1></div><div class="top-actions"><button class="icon-btn" id="langBtn" title="Language">文</button><button class="icon-btn" id="apiOpenTop" title="API settings">⚙</button></div></header>
+
+<section class="page active" id="page-create">
+ <div class="section-title"><div><h2 data-i18n="createTitle">شخصیت تازه بساز</h2><p data-i18n="createSub">جزئیات دنیای شخصیتت را طراحی کن.</p></div><span class="pill">CHARACTER LAB</span></div>
+ <div class="grid">
+  <div class="card">
+   <h3 data-i18n="identity">✧ هویت و ظاهر</h3>
+   <div class="upload"><img id="preview" class="avatar" alt="avatar" src=""><div><strong data-i18n="avatarTitle">تصویر کاراکتر</strong><p class="hint" data-i18n="avatarHint">تصویر انتخاب کن؛ به‌صورت خودکار کوچک و فشرده می‌شود.</p><input type="file" id="avatarFile" accept="image/*"></div></div>
+   <div class="field-grid" style="margin-top:14px">
+    <div class="field"><label><span class="label-icon">⌑</span><span data-i18n="name">نام</span></label><input id="f-name" placeholder="مثلاً آریا"></div>
+    <div class="field"><label><span class="label-icon">⌛</span><span data-i18n="age">سن</span></label><input id="f-age" placeholder="۲۴" type="number" min="0"></div>
+    <div class="field"><label><span class="label-icon">⚥</span><span data-i18n="gender">جنسیت</span></label><input id="f-gender" placeholder="..."></div>
+    <div class="field"><label><span class="label-icon">◎</span><span data-i18n="nationality">ملیت</span></label><input id="f-nationality" placeholder="..."></div>
+    <div class="field"><label><span class="label-icon">◉</span><span data-i18n="eyes">رنگ چشم</span></label><input id="f-eyes" placeholder="..."></div>
+    <div class="field"><label><span class="label-icon">♙</span><span data-i18n="height">قد / اندازه</span></label><input id="f-height" placeholder="..."></div>
+    <div class="field"><label><span class="label-icon">✂</span><span data-i18n="hairstyle">مدل مو</span></label><input id="f-hairstyle" placeholder="..."></div>
+    <div class="field"><label><span class="label-icon">◈</span><span data-i18n="haircolor">رنگ مو</span></label><input id="f-haircolor" placeholder="..."></div>
+    <div class="field"><label><span class="label-icon">▣</span><span data-i18n="role">شغل / نقش</span></label><input id="f-role" placeholder="..."></div>
+    <div class="field"><label><span class="label-icon">♡</span><span data-i18n="likes">علاقه‌مندی‌ها</span></label><input id="f-likes" placeholder="..."></div>
+   </div>
+  </div>
+  <div class="card">
+   <h3 data-i18n="personality">✧ ذهن و شخصیت</h3>
+   <div class="field-grid">
+    <div class="field full"><label><span class="label-icon">♥</span><span data-i18n="traits">ویژگی‌های شخصیتی</span></label><textarea id="f-traits" placeholder="مثلاً کنجکاو، شوخ‌طبع، وفادار..."></textarea></div>
+    <div class="field full"><label><span class="label-icon">☷</span><span data-i18n="tone">لحن صحبت</span></label><input id="f-tone" placeholder="مثلاً آرام، طعنه‌آمیز، رسمی..."></div>
+    <div class="field full"><label><span class="label-icon">✧</span><span data-i18n="background">پیشینه داستانی</span></label><textarea id="f-background" placeholder="گذشته و داستان کاراکتر..."></textarea></div>
+    <div class="field full"><label><span class="label-icon">⚑</span><span data-i18n="goal">هدف و انگیزه</span></label><input id="f-goal" placeholder="..."></div>
+    <div class="field full"><label><span class="label-icon">◌</span><span data-i18n="secret">راز یا ترس (اختیاری)</span></label><input id="f-secret" placeholder="..."></div>
+    <div class="field full"><label><span class="label-icon">✎</span><span data-i18n="greeting">پیام آغازین کاراکتر</span></label><textarea id="f-greeting" placeholder="سلام! خوش اومدی..."></textarea></div>
+   </div>
+   <div class="form-actions"><button class="btn primary" id="saveChar" data-i18n="saveChar">✦ ذخیره کاراکتر</button><button class="btn ghost" id="resetForm" data-i18n="clearForm">پاک کردن فرم</button></div>
+   <p class="notice" data-i18n="privacy">کاراکترها و گفتگوها فقط در حافظه همین مرورگر ذخیره می‌شوند. برای پاسخ هوشمند، API را در تنظیمات وارد کن.</p>
+  </div>
+ </div>
+</section>
+
+<section class="page" id="page-search">
+ <div class="section-title"><div><h2 data-i18n="searchTitle">کتابخانه کاراکترها</h2><p data-i18n="searchSub">شخصیت‌ها را پیدا کن و گفت‌وگو را شروع کن.</p></div><span class="pill" id="charCount">0 CHARACTERS</span></div>
+ <div class="searchbar"><input id="searchInput" data-placeholder="searchPlaceholder" placeholder="جست‌وجو بر اساس نام، نقش یا ویژگی..."><button class="btn primary" id="newFromSearch" data-i18n="newChar">＋ کاراکتر جدید</button></div>
+ <div class="character-list" id="characterList"></div>
+</section>
+
+<section class="page" id="page-chats">
+ <div class="section-title"><div><h2 data-i18n="chatsTitle">گفت‌وگوهای من</h2><p data-i18n="chatsSub">همه‌ی داستان‌ها و مکالمه‌ها در یک جا.</p></div><span class="pill">CHAT ARCHIVE</span></div>
+ <div class="chat-layout">
+  <div class="card chat-list" id="chatList"></div>
+  <div class="card conversation">
+   <div class="chat-head" id="chatHead"><div class="empty" style="width:100%;padding:18px" data-i18n="chooseChat">برای شروع، یک کاراکتر را از جست‌وجو انتخاب کن.</div></div>
+   <div class="messages" id="messages"><div class="empty"><div class="big">▤</div><span data-i18n="noMessages">هنوز گفت‌وگویی انتخاب نشده است.</span></div></div>
+   <div class="composer"><textarea id="messageInput" data-placeholder="messagePlaceholder" placeholder="پیامت را بنویس..." disabled></textarea><button class="btn primary" id="sendBtn" disabled data-i18n="send">ارسال ➤</button></div>
+  </div>
+ </div>
+</section>
+</main>
+</div>
+
+<div class="modal-back" id="apiModal"><div class="modal"><div class="modal-head"><h3 data-i18n="apiTitle">تنظیمات اتصال هوش مصنوعی</h3><button class="icon-btn" id="closeModal">×</button></div>
+ <p class="hint" data-i18n="apiDesc">برای فعال شدن پاسخ‌های هوشمند، آدرس سازگار با OpenAI و کلید API را وارد کن. کلید فقط در همین مرورگر ذخیره می‌شود؛ برای استفاده عمومی از سایت، کلید را در فرانت‌اند قرار نده.</p>
+ <div class="field"><label>API Base URL</label><input id="apiUrl" placeholder="https://api.example.com/v1"></div>
+ <div class="field"><label>API Key</label><input id="apiKey" type="password" placeholder="sk-..."></div>
+ <div class="field"><label data-i18n="model">نام مدل</label><input id="apiModel" placeholder="gpt-4o-mini"></div>
+ <div class="form-actions"><button class="btn primary" id="saveApi" data-i18n="saveSettings">ذخیره تنظیمات</button><button class="btn ghost" id="clearApi" data-i18n="removeSettings">حذف تنظیمات</button></div>
+ <p class="notice" data-i18n="apiWarning">نکته امنیتی: اتصال مستقیم مرورگر برای نمونه شخصی مناسب است. کلید API را با کسی به اشتراک نگذار.</p>
+</div></div>
+<div class="toast" id="toast"></div>
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const DB='neon_tales_v1', API='neon_tales_api_v1';
+let data=JSON.parse(localStorage.getItem(DB)||'{"characters":[],"chats":[]}'),api=JSON.parse(localStorage.getItem(API)||'{}');
+let lang='fa',activeChat=null,photo='',editingId=null;
+const translations={
+fa:{create:'ساخت کاراکتر',search:'جست‌وجو',chats:'چت‌ها',apiSettings:'تنظیمات API',localNote:'اطلاعات در همین مرورگر ذخیره می‌شود.',createTitle:'شخصیت تازه بساز',createSub:'جزئیات دنیای شخصیتت را طراحی کن.',identity:'✧ هویت و ظاهر',avatarTitle:'تصویر کاراکتر',avatarHint:'تصویر انتخاب کن؛ به‌صورت خودکار کوچک و فشرده می‌شود.',name:'نام',age:'سن',gender:'جنسیت',nationality:'ملیت',eyes:'رنگ چشم',height:'قد / اندازه',hairstyle:'مدل مو',haircolor:'رنگ مو',role:'شغل / نقش',likes:'علاقه‌مندی‌ها',personality:'✧ ذهن و شخصیت',traits:'ویژگی‌های شخصیتی',tone:'لحن صحبت',background:'پیشینه داستانی',goal:'هدف و انگیزه',secret:'راز یا ترس (اختیاری)',greeting:'پیام آغازین کاراکتر',saveChar:'✦ ذخیره کاراکتر',clearForm:'پاک کردن فرم',privacy:'کاراکترها و گفتگوها فقط در حافظه همین مرورگر ذخیره می‌شوند. برای پاسخ هوشمند، API را در تنظیمات وارد کن.',searchTitle:'کتابخانه کاراکترها',searchSub:'شخصیت‌ها را پیدا کن و گفت‌وگو را شروع کن.',searchPlaceholder:'جست‌وجو بر اساس نام، نقش یا ویژگی...',newChar:'＋ کاراکتر جدید',chatsTitle:'گفت‌وگوهای من',chatsSub:'همه‌ی داستان‌ها و مکالمه‌ها در یک جا.',chooseChat:'برای شروع، یک کاراکتر را از جست‌وجو انتخاب کن.',noMessages:'هنوز گفت‌وگویی انتخاب نشده است.',messagePlaceholder:'پیامت را بنویس...',send:'ارسال ➤',apiTitle:'تنظیمات اتصال هوش مصنوعی',apiDesc:'برای فعال شدن پاسخ‌های هوشمند، آدرس سازگار با OpenAI و کلید API را وارد کن. کلید فقط در همین مرورگر ذخیره می‌شود؛ برای استفاده عمومی از سایت، کلید را در فرانت‌اند قرار نده.',model:'نام مدل',saveSettings:'ذخیره تنظیمات',removeSettings:'حذف تنظیمات',apiWarning:'نکته امنیتی: اتصال مستقیم مرورگر برای نمونه شخصی مناسب است. کلید API را با کسی به اشتراک نگذار.',emptyChars:'هنوز کاراکتری نساخته‌ای.',start:'شروع چت',edit:'ویرایش',delete:'حذف',saved:'کاراکتر ذخیره شد.',needName:'لطفاً حداقل نام کاراکتر را وارد کن.',deleted:'حذف شد.',edited:'ویرایش ذخیره شد.',you:'شما',regenerate:'تغییر دیالوگ',copy:'کپی',confirmDelete:'این مورد حذف شود؟',apiSaved:'تنظیمات API ذخیره شد.',apiRemoved:'تنظیمات حذف شد.',typing:'در حال نوشتن...',apiMissing:'برای پاسخ هوشمند، ابتدا تنظیمات API را کامل کن.',apiError:'ارتباط با API ناموفق بود؛ آدرس، کلید و مدل را بررسی کن.',emptyChat:'هنوز پیامی وجود ندارد. اولین پیام را بفرست!',chatDeleted:'گفت‌وگو حذف شد.',editPrompt:'متن جدید پیام را وارد کن:',char:'کاراکتر',noResult:'نتیجه‌ای پیدا نشد.'},
+en:{create:'Create',search:'Discover',chats:'Chats',apiSettings:'API settings',localNote:'Saved in this browser only.',createTitle:'Create a character',createSub:'Design the details of your character’s world.',identity:'✧ Identity & appearance',avatarTitle:'Character portrait',avatarHint:'Choose an image; it will be resized and compressed automatically.',name:'Name',age:'Age',gender:'Gender',nationality:'Nationality',eyes:'Eye color',height:'Height / build',hairstyle:'Hairstyle',haircolor:'Hair color',role:'Job / role',likes:'Interests',personality:'✧ Mind & personality',traits:'Personality traits',tone:'Speaking tone',background:'Backstory',goal:'Goals & motivation',secret:'Secret or fear (optional)',greeting:'Character opening message',saveChar:'✦ Save character',clearForm:'Clear form',privacy:'Characters and conversations are stored only in this browser. Add an API in settings for AI replies.',searchTitle:'Character library',searchSub:'Find a character and start a conversation.',searchPlaceholder:'Search by name, role or trait...',newChar:'＋ New character',chatsTitle:'My conversations',chatsSub:'All your stories and conversations in one place.',chooseChat:'Choose a character from Discover to begin.',noMessages:'No conversation selected yet.',messagePlaceholder:'Write your message...',send:'Send ➤',apiTitle:'AI connection settings',apiDesc:'To enable AI replies, enter an OpenAI-compatible API base URL and key. The key is stored only in this browser; never expose a frontend key on a public website.',model:'Model name',saveSettings:'Save settings',removeSettings:'Remove settings',apiWarning:'Security note: direct browser connections are suitable for personal demos. Never share your API key.',emptyChars:'You have not created any characters yet.',start:'Chat',edit:'Edit',delete:'Delete',saved:'Character saved.',needName:'Please enter at least a character name.',deleted:'Deleted.',edited:'Changes saved.',you:'You',regenerate:'Regenerate',copy:'Copy',confirmDelete:'Delete this item?',apiSaved:'API settings saved.',apiRemoved:'Settings removed.',typing:'Thinking...',apiMissing:'Add your API settings to enable AI replies.',apiError:'API request failed. Check the URL, key and model.',emptyChat:'No messages yet. Send the first one!',chatDeleted:'Conversation deleted.',editPrompt:'Enter the revised message:',char:'character',noResult:'No results found.'}
+};
+function t(k){return (translations[lang]||translations.fa)[k]||k}
+function persist(){localStorage.setItem(DB,JSON.stringify(data))}
+function toast(s){let el=$('#toast');el.textContent=s;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2300)}
+function avatarSrc(c){return c.photo||''}
+function avatarHTML(c,cls='avatar'){return c.photo?`<img class="${cls}" src="${c.photo}" alt="">`:`<div class="${cls}">✧</div>`}
+function showPage(p){$$('.page').forEach(x=>x.classList.toggle('active',x.id==='page-'+p));$$('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.page===p));$('#pageTitle').textContent=t(({create:'create',search:'search',chats:'chats'})[p]);if(p==='search')renderCharacters();if(p==='chats')renderChatList()}
+$$('.nav button').forEach(b=>b.onclick=()=>showPage(b.dataset.page));
+$('#newFromSearch').onclick=()=>showPage('create');
+function switchLang(){lang=lang==='fa'?'en':'fa';document.documentElement.lang=lang;document.documentElement.dir=lang==='fa'?'rtl':'ltr';$$('[data-i18n]').forEach(el=>el.textContent=t(el.dataset.i18n));$$('[data-placeholder]').forEach(el=>el.placeholder=t(el.dataset.placeholder));$('#pageTitle').textContent=t($$('.nav button.active')[0]?.dataset.page||'create');$('#langBtn').textContent=lang==='fa'?'文':'فا';renderCharacters();renderChatList();renderMessages()}
+$('#langBtn').onclick=switchLang;
+const fields=['name','age','gender','nationality','eyes','height','hairstyle','haircolor','role','likes','traits','tone','background','goal','secret','greeting'];
+function resetForm(){fields.forEach(k=>$('#f-'+k).value='');photo='';$('#preview').src='';$('#preview').style.display='none';editingId=null;$('#saveChar').textContent=t('saveChar')}
+$('#resetForm').onclick=resetForm;
+$('#avatarFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;if(!f.type.startsWith('image/'))return toast('Image file required');photo=await compressImage(f);$('#preview').src=photo;$('#preview').style.display='block'};
+function compressImage(file){return new Promise((resolve,reject)=>{let img=new Image(),url=URL.createObjectURL(file);img.onload=()=>{let c=document.createElement('canvas'),scale=Math.min(256/img.width,256/img.height,1);c.width=Math.round(img.width*scale);c.height=Math.round(img.height*scale);c.getContext('2d').drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(url);resolve(c.toDataURL('image/jpeg',.78))};img.onerror=reject;img.src=url})}
+$('#saveChar').onclick=()=>{let c={id:editingId||crypto.randomUUID(),photo,updated:Date.now()};fields.forEach(k=>c[k]=$('#f-'+k).value.trim());if(!c.name)return toast(t('needName'));if(editingId){let i=data.characters.findIndex(x=>x.id===editingId);data.characters[i]=c;toast(t('edited'))}else{data.characters.unshift(c);toast(t('saved'))}persist();resetForm();renderCharacters()};
+function editChar(id){let c=data.characters.find(x=>x.id===id);if(!c)return;editingId=id;fields.forEach(k=>$('#f-'+k).value=c[k]||'');photo=c.photo||'';$('#preview').src=photo;$('#preview').style.display=photo?'block':'none';$('#saveChar').textContent=t('edit');showPage('create');window.scrollTo({top:0,behavior:'smooth'})}
+function deleteChar(id){if(!confirm(t('confirmDelete')))return;data.characters=data.characters.filter(x=>x.id!==id);data.chats=data.chats.filter(x=>x.characterId!==id);persist();renderCharacters();renderChatList();toast(t('deleted'))}
+function renderCharacters(){let q=($('#searchInput')?.value||'').toLowerCase(),list=data.characters.filter(c=>fields.some(k=>(c[k]||'').toLowerCase().includes(q)));$('#charCount').textContent=`${data.characters.length} ${lang==='fa'?'کاراکتر':'CHARACTERS'}`;$('#characterList').innerHTML=list.length?list.map(c=>`<article class="char-card">${avatarHTML(c)}<div class="char-meta"><strong>${esc(c.name)}</strong><small>${esc(c.role||c.nationality||t('char'))} ${c.age?` · ${esc(c.age)}`:''}</small><div class="char-actions"><button class="mini" onclick="startChat('${c.id}')">${t('start')}</button><button class="mini" onclick="editChar('${c.id}')">${t('edit')}</button><button class="mini" onclick="deleteChar('${c.id}')">${t('delete')}</button></div></div></article>`).join(''):`<div class="empty" style="grid-column:1/-1"><div class="big">✧</div>${data.characters.length?t('noResult'):t('emptyChars')}</div>`}
+$('#searchInput').oninput=renderCharacters;
+function esc(s=''){return String(s).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
+function startChat(id){let c=data.characters.find(x=>x.id===id);if(!c)return;let chat=data.chats.find(x=>x.characterId===id);if(!chat){chat={id:crypto.randomUUID(),characterId:id,messages:[],updated:Date.now()};data.chats.unshift(chat)}activeChat=chat.id;persist();showPage('chats');renderChatList();renderMessages();if(!chat.messages.length&&c.greeting)addMessage('assistant',c.greeting);$('#messageInput').focus()}
+function renderChatList(){let chats=data.chats.slice().sort((a,b)=>b.updated-a.updated);$('#chatList').innerHTML=chats.length?chats.map(ch=>{let c=data.characters.find(x=>x.id===ch.characterId)||{name:'Unknown'};return `<div class="chat-item ${ch.id===activeChat?'active':''}" onclick="openChat('${ch.id}')">${avatarHTML(c)}<div style="min-width:0;flex:1"><strong>${esc(c.name)}</strong><small>${esc(ch.messages.at(-1)?.content||t('emptyChat'))}</small></div><button class="mini" onclick="event.stopPropagation();deleteChat('${ch.id}')">×</button></div>`}).join(''):`<div class="empty" style="width:100%;padding:25px">${t('emptyChars')}</div>`}
+function openChat(id){activeChat=id;renderChatList();renderMessages()}
+function currentChat(){return data.chats.find(x=>x.id===activeChat)}
+function renderMessages(){let ch=currentChat();if(!ch){$('#chatHead').innerHTML=`<div class="empty" style="width:100%;padding:18px">${t('chooseChat')}</div>`;$('#messages').innerHTML=`<div class="empty"><div class="big">▤</div>${t('noMessages')}</div>`;$('#messageInput').disabled=true;$('#sendBtn').disabled=true;return}
+let c=data.characters.find(x=>x.id===ch.characterId)||{};$('#chatHead').innerHTML=`${avatarHTML(c)}<div style="flex:1"><strong>${esc(c.name||'Character')}</strong><br><small>${esc(c.role||c.tone||'')}</small></div><button class="mini" onclick="deleteChat('${ch.id}')">${t('delete')} ×</button>`;
+$('#messageInput').disabled=false;$('#sendBtn').disabled=false;
+$('#messages').innerHTML=ch.messages.length?ch.messages.map((m,i)=>`<div class="msg ${m.role==='user'?'user':'bot'}">${m.role==='assistant'?avatarHTML(c):'<div class="avatar">◉</div>'}<div><div class="bubble">${esc(m.content)}</div>${m.role==='assistant'?`<div class="msg-tools"><button onclick="regenerate(${i})">↻ ${t('regenerate')}</button><button onclick="editMessage(${i})">✎ ${t('edit')}</button><button onclick="copyMessage(${i})">▢ ${t('copy')}</button><button onclick="deleteMessage(${i})">× ${t('delete')}</button></div>`:`<div class="msg-tools"><button onclick="editMessage(${i})">✎ ${t('edit')}</button><button onclick="deleteMessage(${i})">× ${t('delete')}</button></div>`}</div></div>`).join(''):`<div class="empty">${t('emptyChat')}</div>`;
+$('#messages').scrollTop=$('#messages').scrollHeight}
+function addMessage(role,content){let ch=currentChat();if(!ch)return;ch.messages.push({role,content,at:Date.now()});ch.updated=Date.now();persist();renderMessages();renderChatList()}
+$('#sendBtn').onclick=sendMessage;
+$('#messageInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage()}});
+async function sendMessage(){let text=$('#messageInput').value.trim();if(!text||!currentChat())return;$('#messageInput').value='';addMessage('user',text);await aiReply()}
+function systemPrompt(c){return `You are roleplaying as this fictional character. Stay in character and respond naturally in the same language as the user's latest message. Do not claim to be a real person.\nName: ${c.name}\nAge: ${c.age}\nGender: ${c.gender}\nNationality: ${c.nationality}\nAppearance: eyes ${c.eyes}; height ${c.height}; hairstyle ${c.hairstyle}; hair color ${c.haircolor}\nRole: ${c.role}\nInterests: ${c.likes}\nPersonality: ${c.traits}\nTone: ${c.tone}\nBackstory: ${c.background}\nGoal: ${c.goal}\nSecret/fear: ${c.secret}` }
+async function requestAI(ch,messages){if(!api.url||!api.key||!api.model)throw new Error('missing');let c=data.characters.find(x=>x.id===ch.characterId);let base=api.url.replace(/\/+$/,'');let res=await fetch(base+'/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+api.key},body:JSON.stringify({model:api.model,messages:[{role:'system',content:systemPrompt(c)},...messages.map(m=>({role:m.role,content:m.content}))],temperature:.9})});if(!res.ok)throw new Error('request');let j=await res.json();return j.choices?.[0]?.message?.content?.trim()||'…'}
+async function aiReply(){let ch=currentChat();if(!ch)return;let c=data.characters.find(x=>x.id===ch.characterId);let messages=$('#messages');let loading=document.createElement('div');loading.className='hint';loading.textContent=t('typing');loading.id='typing';messages.append(loading);messages.scrollTop=messages.scrollHeight;try{let reply=await requestAI(ch,ch.messages);$('#typing')?.remove();addMessage('assistant',reply)}catch(e){$('#typing')?.remove();toast(e.message==='missing'?t('apiMissing'):t('apiError'))}}
+async function regenerate(i){let ch=currentChat();if(!ch)return;let prior=ch.messages.slice(0,i).filter(m=>m.role==='user'||m.role==='assistant');if(!prior.length)return;try{let reply=await requestAI(ch,prior);ch.messages[i].content=reply;ch.messages=ch.messages.slice(0,i+1);ch.updated=Date.now();persist();renderMessages();renderChatList()}catch(e){toast(e.message==='missing'?t('apiMissing'):t('apiError'))}}
+function editMessage(i){let ch=currentChat(),val=prompt(t('editPrompt'),ch.messages[i].content);if(val===null)return;ch.messages[i].content=val;ch.messages=ch.messages.slice(0,i+1);persist();renderMessages();renderChatList()}
+function deleteMessage(i){let ch=currentChat();ch.messages.splice(i,1);persist();renderMessages();renderChatList()}
+function copyMessage(i){navigator.clipboard?.writeText(currentChat().messages[i].content).then(()=>toast(t('copy')))}
+function deleteChat(id){if(!confirm(t('confirmDelete')))return;data.chats=data.chats.filter(x=>x.id!==id);if(activeChat===id)activeChat=null;persist();renderChatList();renderMessages();toast(t('chatDeleted'))}
+function openApi(){ $('#apiUrl').value=api.url||'';$('#apiKey').value=api.key||'';$('#apiModel').value=api.model||'gpt-4o-mini';$('#apiModal').classList.add('show')}
+$('#apiOpen').onclick=$('#apiOpenTop').onclick=openApi;$('#closeModal').onclick=()=>$('#apiModal').classList.remove('show');$('#apiModal').onclick=e=>{if(e.target.id==='apiModal')$('#apiModal').classList.remove('show')};
+$('#saveApi').onclick=()=>{api={url:$('#apiUrl').value.trim(),key:$('#apiKey').value.trim(),model:$('#apiModel').value.trim()};localStorage.setItem(API,JSON.stringify(api));$('#apiModal').classList.remove('show');toast(t('apiSaved'))};
+$('#clearApi').onclick=()=>{api={};localStorage.removeItem(API);$('#apiUrl').value=$('#apiKey').value='';$('#apiModel').value='gpt-4o-mini';toast(t('apiRemoved'))};
+renderCharacters();renderChatList();resetForm();
+</script>
+</body></html>

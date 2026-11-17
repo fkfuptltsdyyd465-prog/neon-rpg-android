@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NEON RP — Character Creator</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#070914;color:#f4f1ff;font-family:Tahoma,Arial,sans-serif;min-height:100vh}
+body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 20% 10%,#42156b55,transparent 35%),radial-gradient(circle at 80% 20%,#075e8750,transparent 35%);pointer-events:none}
+.wrap{max-width:1100px;margin:auto;padding:24px}.hero{padding:22px;border:1px solid #7b39ff66;border-radius:22px;background:#0c0d1cf0;box-shadow:0 0 35px #7b39ff22}
+h1{margin:0;color:#fff;text-shadow:0 0 15px #c44cff;font-size:28px}.sub{color:#a9a5bd;margin-top:8px}
+.grid{display:grid;grid-template-columns:1.4fr .8fr;gap:18px;margin-top:18px}.card{background:#0d1020eF;border:1px solid #6e48a866;border-radius:18px;padding:18px;box-shadow:0 0 25px #0008}
+h2{font-size:17px;margin:0 0 14px;color:#e6cfff}.section{margin-bottom:20px}
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:flex;flex-direction:column;gap:6px}
+label{font-size:12px;color:#b9b5ca}input,select,textarea{width:100%;background:#15182b;color:#fff;border:1px solid #40395c;border-radius:12px;padding:11px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:#bd55ff;box-shadow:0 0 12px #bd55ff33}textarea{min-height:90px;resize:vertical}
+.color{height:44px;padding:4px;cursor:pointer}.full{grid-column:1/-1}
+.options{display:flex;flex-wrap:wrap;gap:8px}.opt{position:relative}.opt input{position:absolute;opacity:0}.opt span{display:block;padding:9px 12px;border:1px solid #40395c;border-radius:999px;background:#131629;color:#d7d2e5;font-size:12px;cursor:pointer}.opt input:checked+span{border-color:#d04cff;background:#351448;color:#fff;box-shadow:0 0 14px #c13cff55}
+.preview{position:sticky;top:15px;height:max-content}.avatar{width:100%;aspect-ratio:1;border-radius:20px;background:linear-gradient(145deg,#15142b,#0a0b15);border:1px solid #7044a8;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.avatar .head{width:45%;height:55%;border-radius:48% 48% 44% 44%;background:#d9a07b;position:relative;box-shadow:0 0 30px #d9a07b33}
+.avatar .hair{position:absolute;left:-7%;right:-7%;top:-9%;height:45%;background:#17121d;border-radius:55% 55% 35% 35%;box-shadow:0 0 22px #c04cff66}
+.avatar .eye{position:absolute;top:42%;width:13%;height:5%;background:#38dfff;border-radius:50%;box-shadow:0 0 10px #38dfff}.e1{left:20%}.e2{right:20%}
+.avatar .mouth{position:absolute;bottom:23%;left:40%;width:20%;height:4%;background:#9d315f;border-radius:50%}
+.badge{margin-top:12px;padding:10px;border:1px solid #443b5c;border-radius:12px;background:#111425;font-size:12px;color:#d8d4e5}
+.actions{display:flex;gap:10px;margin-top:15px}.btn{border:0;border-radius:12px;padding:12px 18px;background:linear-gradient(90deg,#9d36ff,#ec3cff);color:#fff;font-weight:bold;cursor:pointer;box-shadow:0 0 20px #bf3cff44}.btn.alt{background:#171a2c;border:1px solid #4a4262}.saved{display:none;margin-top:12px;color:#73ffc7;font-size:12px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}.preview{position:static}.fields{grid-template-columns:1fr}.full{grid-column:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="hero">
+<h1>NEON RP / CHARACTER FORGE</h1>
+<div class="sub">ساخت کاراکتر کاملاً قابل شخصی‌سازی — هر چیزی را انتخاب کن.</div>
+</div>
+
+<div class="grid">
+<main class="card">
+<form id="characterForm">
+
+<div class="section"><h2>👤 اطلاعات پایه</h2><div class="fields">
+<div class="field"><label>نام</label><input id="name" placeholder="مثلاً Alex"></div>
+<div class="field"><label>نام خانوادگی</label><input id="family" placeholder="مثلاً Nova"></div>
+<div class="field"><label>سن</label><input id="age" type="number" min="1" max="120" value="20"></div>
+<div class="field"><label>قد (سانتی‌متر)</label><input id="height" type="number" min="50" max="250" value="175"></div>
+<div class="field"><label>وزن (کیلوگرم)</label><input id="weight" type="number" min="10" max="300" value="70"></div>
+<div class="field"><label>جنسیت</label><select id="gender"><option>پسر</option><option>دختر</option><option>غیردودویی</option><option>سفارشی</option></select></div>
+<div class="field full"><label>توضیحات ظاهری</label><textarea id="appearance" placeholder="هر ویژگی ظاهری دلخواه..."></textarea></div>
+</div></div>
+
+<div class="section"><h2>👁️ چشم‌ها</h2><div class="fields">
+<div class="field"><label>رنگ چشم</label><select id="eyes"><option>قهوه‌ای</option><option>مشکی</option><option>آبی</option><option>سبز</option><option>طوسی</option><option>عسلی</option><option>کهربایی</option><option>بنفش</option><option>قرمز</option><option>فیروزه‌ای</option><option>صورتی</option><option>طلایی</option><option>دو رنگ (Heterochromia)</option><option>رنگ دلخواه</option></select></div>
+<div class="field"><label>رنگ سفارشی چشم</label><input id="eyeCustom" type="color" class="color" value="#38dfff"></div>
+<div class="field"><label>شکل چشم</label><select id="eyeShape"><option>معمولی</option><option>درشت</option><option>بادامی</option><option>کشیده</option><option>تیز</option><option>نیمه‌خوابیده</option></select></div>
+<div class="field"><label>حالت چشم</label><select id="eyeMood"><option>آرام</option><option>خندان</option><option>جدی</option><option>مرموز</option><option>خشمگین</option><option>بی‌احساس</option></select></div>
+</div></div>
+
+<div class="section"><h2>💇 مو</h2><div class="fields">
+<div class="field"><label>رنگ مو</label><select id="hair"><option>مشکی</option><option>قهوه‌ای</option><option>بلوند</option><option>سفید</option><option>خاکستری</option><option>قرمز</option><option>نارنجی</option><option>صورتی</option><option>بنفش</option><option>آبی</option><option>سبز</option><option>نقره‌ای</option><option>رنگین‌کمانی</option><option>سفارشی</option></select></div>
+<div class="field"><label>رنگ سفارشی مو</label><input id="hairCustom" type="color" class="color" value="#a43cff"></div>
+<div class="field"><label>مدل مو</label><select id="hairStyle"><option>کوتاه</option><option>متوسط</option><option>بلند</option><option>صاف</option><option>موج‌دار</option><option>فر</option><option>اسپایکی</option><option>دم‌اسبی</option><option>بافت</option><option>دو رنگ</option><option>آندرکات</option></select></div>
+<div class="field"><label>طول مو</label><select id="hairLength"><option>خیلی کوتاه</option><option>کوتاه</option><option>متوسط</option><option>بلند</option><option>خیلی بلند</option></select></div>
+</div></div>
+
+<div class="section"><h2>🎨 پوست و چهره</h2><div class="fields">
+<div class="field"><label>رنگ پوست</label><select id="skin"><option>خیلی روشن</option><option>روشن</option><option>گندمی</option><option>برنزه</option><option>قهوه‌ای</option><option>تیره</option><option>خیالی / فانتزی</option></select></div>
+<div class="field"><label>رنگ سفارشی پوست</label><input id="skinCustom" type="color" class="color" value="#d9a07b"></div>
+<div class="field"><label>فرم صورت</label><select id="face"><option>بیضی</option><option>گرد</option><option>کشیده</option><option>مربعی</option><option>قلبی</option><option>الماسی</option></select></div>
+<div class="field"><label>جزئیات چهره</label><input id="faceDetails" placeholder="خال، کک‌ومک، جای زخم و..."></div>
+</div></div>
+
+<div class="section"><h2>👕 استایل و لباس</h2><div class="fields">
+<div class="field"><label>استایل اصلی</label><select id="style"><option>Cyberpunk</option><option>Streetwear</option><option>Casual</option><option>Formal</option><option>Fantasy</option><option>Sporty</option><option>Gothic</option><option>Techwear</option><option>School</option><option>Royal</option></select></div>
+<div class="field"><label>رنگ لباس</label><input id="clothesColor" type="color" class="color" value="#171a2c"></div>
+<div class="field"><label>بالاپوش</label><select id="top"><option>تی‌شرت</option><option>هودی</option><option>پیراهن</option><option>کت</option><option>ژاکت</option><option>زره</option><option>لباس فانتزی</option><option>سفارشی</option></select></div>
+<div class="field"><label>پایین‌تنه</label><select id="bottom"><option>شلوار جین</option><option>شلوار پارچه‌ای</option><option>شلوار تاکتیکال</option><option>شلوارک</option><option>دامن</option><option>لباس یک‌تکه</option><option>سفارشی</option></select></div>
+<div class="field"><label>کفش</label><select id="shoes"><option>کتانی</option><option>بوت</option><option>کفش رسمی</option><option>صندل</option><option>فانتزی</option><option>سفارشی</option></select></div>
+<div class="field"><label>اکسسوری</label><input id="accessories" placeholder="عینک، گردنبند، دستبند، گوشواره..."></div>
+</div></div>
+
+<div class="section"><h2>🧠 شخصیت</h2><div class="fields">
+<div class="field"><label>تیپ شخصیتی</label><select id="personality"><option>آرام</option><option>شوخ</option><option>جدی</option><option>مرموز</option><option>خجالتی</option><option>جسور</option><option>باهوش</option><option>مغرور</option><option>مهربان</option><option>ضدقهرمان</option></select></div>
+<div class="field"><label>اخلاق</label><select id="morality"><option>قهرمان</option><option>خنثی</option><option>ضدقهرمان</option><option>شرور</option></select></div>
+<div class="field"><label>علایق</label><input id="likes" placeholder="موسیقی، بازی، تکنولوژی..."></div>
+<div class="field"><label>ترس‌ها</label><input id="fears" placeholder="هر چیزی..."></div>
+<div class="field full"><label>داستان و پیشینه</label><textarea id="backstory" placeholder="گذشته، خانواده، هدف، رازها و اتفاقات مهم..."></textarea></div>
+</div></div>
+
+<div class="section"><h2>⚡ توانایی‌ها</h2>
+<div class="options">
+<label class="opt"><input type="checkbox" name="power" value="هوش"><span>🧠 هوش بالا</span></label>
+<label class="opt"><input type="checkbox" name="power" value="سرعت"><span>⚡ سرعت</span></label>
+<label class="opt"><input type="checkbox" name="power" value="قدرت"><span>💪 قدرت</span></label>
+<label class="opt"><input type="checkbox" name="power" value="هک"><span>💻 هک</span></label>
+<label class="opt"><input type="checkbox" name="power" value="جادو"><span>🔮 جادو</span></label>
+<label class="opt"><input type="checkbox" name="power" value="تله‌پاتی"><span>🧿 تله‌پاتی</span></label>
+<label class="opt"><input type="checkbox" name="power" value="نامرئی شدن"><span>👻 نامرئی شدن</span></label>
+<label class="opt"><input type="checkbox" name="power" value="پرواز"><span>🪽 پرواز</span></label>
+</div></div>
+
+<div class="section"><h2>🌌 تنظیمات جهان</h2><div class="fields">
+<div class="field"><label>ژانر</label><select id="genre"><option>Cyberpunk</option><option>Fantasy</option><option>Modern</option><option>School</option><option>Post-Apocalyptic</option><option>Space</option><option>Mystery</option><option>Superhero</option></select></div>
+<div class="field"><label>نقش در داستان</label><select id="role"><option>قهرمان</option><option>شخصیت اصلی</option><option>شخصیت فرعی</option><option>رهبر</option><option>دشمن</option><option>راوی</option></select></div>
+<div class="field full"><label>قوانین یا ویژگی‌های دلخواه</label><textarea id="custom" placeholder="هر چیزی که می‌خواهی سیستم درباره این کاراکتر بداند..."></textarea></div>
+</div></div>
+
+<div class="actions"><button class="btn" type="submit">✨ ساخت کاراکتر</button><button class="btn alt" type="button" id="reset">پاک کردن</button></div>
+<div class="saved" id="saved">✓ کاراکتر در مرورگر ذخیره شد.</div>
+</form>
+</main>
+
+<aside class="card preview">
+<h2>پیش‌نمایش</h2>
+<div class="avatar"><div class="head"><div class="hair"></div><div class="eye e1"></div><div class="eye e2"></div><div class="mouth"></div></div></div>
+<div class="badge" id="summary">نام: —<br>سن: — | قد: —<br>چشم: — | مو: —<br>استایل: —</div>
+<div class="badge">💾 ذخیره محلی فعال است؛ برای استفاده از کاراکتر به سرور یا API نیاز نیست.</div>
+</aside>
+</div>
+</div>
+
+<script>
+const ids=["name","family","age","height","weight","gender","appearance","eyes","eyeCustom","eyeShape","eyeMood","hair","hairCustom","hairStyle","hairLength","skin","skinCustom","face","faceDetails","style","clothesColor","top","bottom","shoes","accessories","personality","morality","likes","fears","backstory","genre","role","custom"];
+function update(){
+ const g=id=>document.getElementById(id).value;
+ document.getElementById("summary").innerHTML=
+ `نام: ${g("name")||"—"} ${g("family")||""}<br>سن: ${g("age")} | قد: ${g("height")} سانتی‌متر<br>چشم: ${g("eyes")} | مو: ${g("hair")}<br>استایل: ${g("style")}`;
+}
+document.querySelectorAll("input,select,textarea").forEach(x=>x.addEventListener("input",update));
+document.getElementById("characterForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ const data={}; ids.forEach(id=>data[id]=document.getElementById(id).value);
+ data.powers=[...document.querySelectorAll('input[name="power"]:checked')].map(x=>x.value);
+ localStorage.setItem("neonRP_character",JSON.stringify(data));
+ document.getElementById("saved").style.display="block";
+});
+document.getElementById("reset").onclick=()=>{
+ if(confirm("همه انتخاب‌ها پاک شود؟")){document.getElementById("characterForm").reset();localStorage.removeItem("neonRP_character");update();}
+};
+const old=localStorage.getItem("neonRP_character");
+if(old){try{const d=JSON.parse(old);ids.forEach(id=>{if(d[id]!==undefined)document.getElementById(id).value=d[id]});(d.powers||[]).forEach(p=>{const x=[...document.querySelectorAll('input[name="power"]')].find(a=>a.value===p);if(x)x.checked=true});}catch(e){}}
+update();
+</script>
+</body>
+</html>
